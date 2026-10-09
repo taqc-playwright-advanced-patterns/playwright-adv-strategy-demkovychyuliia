@@ -1,9 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
 
-/**
- * Page Object for the coffee shop menu.
- * Locators verified against https://seleniumbase.io/coffee/
- */
 export class MenuPage {
   readonly page: Page;
   readonly cartLink: Locator;
@@ -14,25 +10,30 @@ export class MenuPage {
 
   constructor(page: Page) {
     this.page = page;
+
     this.cartLink = page.getByRole('link', { name: 'Cart page' });
-    // Total button: aria-label="Proceed to checkout", data-test="checkout"
-    this.totalButton = page.getByRole('button', { name: 'Proceed to checkout' });
+
+    this.totalButton = page.getByRole('button', {
+      name: 'Proceed to checkout',
+    });
+
     this.promoBanner = page.locator('.promo');
-    this.acceptPromoButton = page.getByRole('button', { name: 'Yes, of course!' });
-    this.declinePromoButton = page.getByRole('button', { name: "Nah, I'll skip." });
+
+    this.acceptPromoButton = page.getByRole('button', {
+      name: 'Yes, of course!',
+    });
+
+    this.declinePromoButton = page.getByRole('button', {
+      name: "Nah, I'll skip.",
+    });
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('/');
+    await this.page.goto('https://seleniumbase.io/coffee/');
   }
 
-  /**
-   * Drink cup.
-   * Use exact — otherwise "Espresso" also matches "Espresso Macchiato".
-   * Alternative: getByTestId (config has testIdAttribute = "data-test").
-   */
   productByName(name: string): Locator {
-    return this.page.getByLabel(name, { exact: true });
+    return this.page.getByTestId(name);
   }
 
   async openCart(): Promise<void> {

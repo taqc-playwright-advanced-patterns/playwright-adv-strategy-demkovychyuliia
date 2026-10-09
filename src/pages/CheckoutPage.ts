@@ -5,9 +5,6 @@ export type CheckoutFormData = {
   email: string;
 };
 
-/**
- * Page Object for the Payment details modal.
- */
 export class CheckoutPage {
   readonly page: Page;
   readonly paymentForm: Locator;
@@ -18,7 +15,11 @@ export class CheckoutPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.paymentForm = page.getByRole('form', { name: 'Payment form' });
+
+    this.paymentForm = page.getByRole('form', {
+      name: 'Payment form',
+    });
+
     this.nameInput = page.locator('#name');
     this.emailInput = page.locator('#email');
     this.submitButton = page.locator('#submit-payment');
